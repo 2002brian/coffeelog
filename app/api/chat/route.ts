@@ -4,6 +4,7 @@ import path from "path";
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 type ChatMessage = {
@@ -21,7 +22,6 @@ const openai = new OpenAI({
   baseURL: process.env.UNIEAI_BASE_URL || "https://api.unie.ai/v1",
 });
 
-const knowledgeDir = path.join(process.cwd(), "knowledge");
 const knowledgeFiles = [
   "domain_knowledge.md",
   "wbrc_metrics.md",
@@ -32,7 +32,7 @@ function loadExpertKnowledgeBase(): string {
   const contents: string[] = [];
 
   for (const fileName of knowledgeFiles) {
-    const filePath = path.join(knowledgeDir, fileName);
+    const filePath = path.join(process.cwd(), "knowledge", fileName);
     try {
       const content = fs.readFileSync(filePath, "utf-8").trim();
       if (content.length > 0) {
@@ -49,10 +49,9 @@ function loadExpertKnowledgeBase(): string {
   return contents.join("\n\n");
 }
 
-const expertKnowledgeBase = loadExpertKnowledgeBase();
-
 export async function POST(req: NextRequest) {
   try {
+    const expertKnowledgeBase = loadExpertKnowledgeBase();
     const body = (await req.json()) as ChatRequestBody;
     const brewRecordId = Number(body?.brewRecordId);
     const messages = Array.isArray(body?.messages) ? body.messages : [];
