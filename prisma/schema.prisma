@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL") 
 }
 
 model CoffeeBean {
@@ -21,21 +22,21 @@ model CoffeeBean {
 
 model BrewRecord {
   id          Int        @id @default(autoincrement())
-  beanId       Int
-  bean         CoffeeBean @relation(fields: [beanId], references: [id], onDelete: Cascade)
-  dose         Float
-  water        Float
-  temperature  Float
-  equipment    String
-  brewTime     Int
-  grindSize    String?
-  bloomTime    Int?
-  acidity      Int
-  sweetness    Int
-  body         Int
-  bitterness   Int
-  feedback     String?
-  createdAt    DateTime   @default(now())
+  beanId      Int
+  bean        CoffeeBean @relation(fields: [beanId], references: [id], onDelete: Cascade)
+  dose        Float
+  water       Float
+  temperature Float
+  equipment   String
+  brewTime    Int
+  grindSize   String?
+  bloomTime   Int?
+  acidity     Int
+  sweetness   Int
+  body        Int
+  bitterness  Int
+  feedback    String?
+  createdAt   DateTime   @default(now())
 
   @@index([beanId, createdAt])
 }

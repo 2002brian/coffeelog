@@ -4,6 +4,7 @@ import path from "path";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 type ChatMessage = {
   role: "user" | "assistant";
