@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model CoffeeBean {
+  id         Int          @id @default(autoincrement())
+  name       String
+  origin     String
+  roastLevel String
+  process    String
+  notes      String?
+  createdAt  DateTime     @default(now())
+  brewRecords BrewRecord[]
+
+  @@index([createdAt])
+}
+
+model BrewRecord {
+  id          Int        @id @default(autoincrement())
+  beanId       Int
+  bean         CoffeeBean @relation(fields: [beanId], references: [id], onDelete: Cascade)
+  dose         Float
+  water        Float
+  temperature  Float
+  equipment    String
+  brewTime     Int
+  grindSize    String?
+  bloomTime    Int?
+  acidity      Int
+  sweetness    Int
+  body         Int
+  bitterness   Int
+  feedback     String?
+  createdAt    DateTime   @default(now())
+
+  @@index([beanId, createdAt])
+}
