@@ -11,10 +11,8 @@
   "dependencies": {
     "@ai-sdk/openai": "^3.0.34",
     "@ducanh2912/next-pwa": "^10.2.9",
-    "@prisma/adapter-better-sqlite3": "^7.4.1",
     "@prisma/client": "^7.4.1",
     "ai": "^6.0.101",
-    "better-sqlite3": "^12.6.2",
     "next": "16.1.6",
     "openai": "^6.25.0",
     "react": "19.2.3",
