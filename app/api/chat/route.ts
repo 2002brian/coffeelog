@@ -1,11 +1,9 @@
 import OpenAI from "openai";
 import fs from "fs";
 import path from "path";
-import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -17,41 +15,31 @@ type ChatRequestBody = {
   messages: ChatMessage[];
 };
 
-const openai = new OpenAI({
-  apiKey: process.env.UNIEAI_API_KEY,
-  baseURL: process.env.UNIEAI_BASE_URL || "https://api.unie.ai/v1",
-});
-
-const knowledgeFiles = [
-  "domain_knowledge.md",
-  "wbrc_metrics.md",
-  "processing_corpus.md",
-];
-
-function loadExpertKnowledgeBase(): string {
-  const contents: string[] = [];
-
-  for (const fileName of knowledgeFiles) {
-    const filePath = path.join(process.cwd(), "knowledge", fileName);
-    try {
-      const content = fs.readFileSync(filePath, "utf-8").trim();
-      if (content.length > 0) {
-        contents.push(content);
-      }
-    } catch (error) {
-      console.warn(
-        `[Chat API] Unable to read knowledge file: ${filePath}`,
-        error
-      );
-    }
-  }
-
-  return contents.join("\n\n");
-}
-
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const expertKnowledgeBase = loadExpertKnowledgeBase();
+    const knowledgeFiles = [
+      "domain_knowledge.md",
+      "wbrc_metrics.md",
+      "processing_corpus.md",
+    ];
+    const knowledgeContents: string[] = [];
+
+    for (const fileName of knowledgeFiles) {
+      const filePath = path.join(process.cwd(), "knowledge", fileName);
+      try {
+        const content = fs.readFileSync(filePath, "utf-8").trim();
+        if (content.length > 0) {
+          knowledgeContents.push(content);
+        }
+      } catch (error) {
+        console.warn(
+          `[Chat API] Unable to read knowledge file: ${filePath}`,
+          error
+        );
+      }
+    }
+
+    const expertKnowledgeBase = knowledgeContents.join("\n\n");
     const body = (await req.json()) as ChatRequestBody;
     const brewRecordId = Number(body?.brewRecordId);
     const messages = Array.isArray(body?.messages) ? body.messages : [];
@@ -100,6 +88,11 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
+
+    const openai = new OpenAI({
+      apiKey: process.env.UNIEAI_API_KEY,
+      baseURL: process.env.UNIEAI_BASE_URL || "https://api.unie.ai/v1",
+    });
 
     const systemPrompt = `你是一位 WBrC 世界咖啡沖煮冠軍教練。使用者目前沖煮了一杯 ${currentRecord.bean.origin} 的 ${currentRecord.bean.process} 咖啡，參數為：粉量 ${currentRecord.dose}g、總水量 ${currentRecord.water}ml、水溫 ${currentRecord.temperature}°C。使用者的感官回饋為：酸度${currentRecord.acidity}分、甜度${currentRecord.sweetness}分、醇厚度${currentRecord.body}分。
 
