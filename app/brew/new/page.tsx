@@ -1,5 +1,16 @@
+import { Suspense } from "react";
 import BrewFormClient from "./BrewFormClient";
 import { prisma } from "@/lib/prisma";
+
+type BeanOption = {
+  id: number;
+  name: string;
+  roastLevel: string;
+};
+
+function BrewForm({ beans }: { beans: BeanOption[] }) {
+  return <BrewFormClient beans={beans} />;
+}
 
 export default async function NewBrewPage() {
   const beans = await prisma.coffeeBean.findMany({
@@ -34,7 +45,9 @@ export default async function NewBrewPage() {
         </p>
       </header>
 
-      <BrewFormClient beans={beans} />
+      <Suspense fallback={<div>載入中...</div>}>
+        <BrewForm beans={beans} />
+      </Suspense>
     </main>
   );
 }
