@@ -1,3 +1,4 @@
+import { Coffee } from "lucide-react";
 import Link from "next/link";
 import BeansClient from "./BeansClient";
 import { prisma } from "@/lib/prisma";
@@ -57,9 +58,10 @@ export default async function BeansPage() {
                 <div className="mt-4">
                   <Link
                     href={`/brew/new?beanId=${bean.id}`}
-                    className="inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-amber-600 active:scale-[0.98] active:bg-amber-700"
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-amber-500 px-4 py-3 text-sm font-semibold text-white shadow-sm transition duration-150 hover:bg-amber-600 active:scale-[0.98] active:bg-amber-700"
                   >
-                    ☕️ 沖煮這支豆子
+                    <Coffee className="h-4 w-4" />
+                    <span>沖煮這支豆子</span>
                   </Link>
                 </div>
               </article>

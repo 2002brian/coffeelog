@@ -1,3 +1,5 @@
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 function formatRatio(dose: number, water: number) {
@@ -42,9 +44,10 @@ export default async function RecordsPage() {
       ) : (
         <section className="grid gap-4">
           {records.map((record) => (
-            <article
+            <Link
               key={record.id}
-              className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
+              href={`/records/${record.id}`}
+              className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:bg-gray-50 hover:shadow-md active:scale-[0.99]"
             >
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
@@ -55,8 +58,11 @@ export default async function RecordsPage() {
                     {record.createdAt.toLocaleString("zh-TW")}
                   </p>
                 </div>
-                <div className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">
-                  粉水比 {formatRatio(record.dose, record.water)}
+                <div className="flex items-center gap-2">
+                  <div className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">
+                    粉水比 {formatRatio(record.dose, record.water)}
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-zinc-400" />
                 </div>
               </div>
 
@@ -86,7 +92,7 @@ export default async function RecordsPage() {
                   </p>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </section>
       )}

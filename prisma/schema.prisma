@@ -39,3 +39,13 @@ model BrewRecord {
 
   @@index([beanId, createdAt])
 }
+
+model Equipment {
+  id        Int      @id @default(autoincrement())
+  name      String
+  type      String
+  brand     String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
