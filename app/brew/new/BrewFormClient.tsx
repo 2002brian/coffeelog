@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { useFormStatus } from "react-dom";
 import { createBrewRecord } from "../actions";
 
@@ -52,6 +53,15 @@ function SensoryRange({
 }
 
 export default function BrewFormClient({ beans }: { beans: BeanOption[] }) {
+  const searchParams = useSearchParams();
+  const beanIdParam = searchParams.get("beanId");
+  const parsedBeanId = Number(beanIdParam);
+  const defaultBeanId =
+    Number.isInteger(parsedBeanId) &&
+    beans.some((bean) => bean.id === parsedBeanId)
+      ? String(parsedBeanId)
+      : "";
+
   return (
     <form action={createBrewRecord} className="space-y-6">
       <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
@@ -66,7 +76,7 @@ export default function BrewFormClient({ beans }: { beans: BeanOption[] }) {
             <select
               name="beanId"
               required
-              defaultValue=""
+              defaultValue={defaultBeanId}
               className="rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none ring-amber-500 transition focus:ring-2"
             >
               <option value="" disabled>
