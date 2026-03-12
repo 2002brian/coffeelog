@@ -50,41 +50,41 @@ export default function HomePage() {
   ];
 
   return (
-    <main className="mx-auto max-w-4xl space-y-8 px-4 py-8 sm:px-6">
-      <header className="space-y-2 pt-4">
-        <p className="text-sm font-medium text-amber-600">Dashboard</p>
-        <h1 className="text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
+    <main className="mx-auto max-w-5xl space-y-10 px-4 py-10 sm:px-6">
+      <header className="space-y-3 pt-4">
+        <p className="text-sm font-medium text-slate-500">Dashboard</p>
+        <h1 className="text-4xl font-bold tracking-tight text-slate-700 sm:text-6xl">
           CoffeeLand
         </h1>
-        <p className="max-w-2xl text-sm leading-6 text-zinc-600 sm:text-base">
+        <p className="max-w-2xl text-base font-light leading-7 text-slate-500">
           以豆單、沖煮與紀錄三條動線，快速完成每一杯咖啡的決策與追蹤。
         </p>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {actions.map((action) => {
           const Icon = action.icon;
 
           return (
-          <Link
-            key={action.title}
-            href={action.href}
-            className="rounded-2xl bg-white p-6 shadow-sm transition duration-150 hover:shadow-md active:scale-95"
-          >
-            <div className="space-y-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
-                <Icon className="h-6 w-6" />
+            <Link
+              key={action.title}
+              href={action.href}
+              className="rounded-[24px] border border-white/80 bg-white/60 p-8 shadow-[0_8px_30px_rgb(51,68,85,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgb(51,68,85,0.1)] active:scale-95"
+            >
+              <div className="space-y-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/15 to-cyan-500/15 text-violet-500">
+                  <Icon className="h-7 w-7" />
+                </div>
+                <div className="space-y-2">
+                  <h2 className="text-xl font-bold tracking-tight text-slate-700">
+                    {action.title}
+                  </h2>
+                  <p className="text-sm font-normal leading-7 text-slate-500">
+                    {action.description}
+                  </p>
+                </div>
               </div>
-              <div className="space-y-1">
-                <h2 className="text-lg font-semibold text-zinc-900">
-                  {action.title}
-                </h2>
-                <p className="text-sm leading-6 text-zinc-600">
-                  {action.description}
-                </p>
-              </div>
-            </div>
-          </Link>
+            </Link>
           );
         })}
       </section>

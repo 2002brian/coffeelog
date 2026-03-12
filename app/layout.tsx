@@ -36,9 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-gray-50 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} bg-gradient-to-br from-[#f0f4f8] to-[#e1eaf3] text-slate-700 antialiased`}
       >
-        <main className="pb-24">{children}</main>
+        <main className="min-h-screen pb-32">{children}</main>
         <BottomNav />
       </body>
     </html>

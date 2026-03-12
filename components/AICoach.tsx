@@ -162,17 +162,19 @@ export default function AICoach({ brewRecordId }: { brewRecordId: number }) {
   }
 
   return (
-    <section className="rounded-3xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <header className="mb-4 space-y-1">
-        <h2 className="text-xl font-semibold text-zinc-900">AI 教練對話</h2>
-        <p className="text-sm text-zinc-600">
+    <section className="rounded-3xl border border-white/80 bg-white/60 p-8 shadow-[0_8px_30px_rgb(51,68,85,0.06)] backdrop-blur-xl">
+      <header className="mb-6 space-y-2">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-700">
+          AI 教練對話
+        </h2>
+        <p className="text-base font-light leading-7 text-slate-500">
           直接針對這杯的沖煮表現提問，取得即時調整建議。
         </p>
       </header>
 
-      <div className="h-[360px] overflow-y-auto rounded-3xl bg-zinc-50 p-4">
+      <div className="h-[360px] overflow-y-auto rounded-3xl border border-white/80 bg-white/40 p-6 shadow-[inset_0_1px_0_rgb(255,255,255,0.6)]">
         {messages.length === 0 ? (
-          <div className="flex h-full items-center justify-center text-center text-sm leading-6 text-zinc-500">
+          <div className="flex h-full items-center justify-center text-center text-sm font-light leading-7 text-slate-500">
             先問 AI 一個具體問題，例如「這杯偏酸而且薄，下次先改哪個參數？」
           </div>
         ) : (
@@ -185,10 +187,10 @@ export default function AICoach({ brewRecordId }: { brewRecordId: number }) {
                 }`}
               >
                 <div
-                  className={`max-w-[85%] rounded-[24px] px-4 py-3 text-sm leading-6 shadow-sm ${
+                  className={`max-w-[85%] rounded-[24px] px-4 py-3 text-sm leading-7 shadow-[0_8px_20px_rgb(51,68,85,0.04)] ${
                     message.role === "user"
-                      ? "bg-blue-500 text-white"
-                      : "bg-white text-zinc-800"
+                      ? "bg-gradient-to-r from-violet-500 to-cyan-500 text-white"
+                      : "border border-white/80 bg-white/70 text-slate-700"
                   }`}
                 >
                   {message.content ||
@@ -200,22 +202,22 @@ export default function AICoach({ brewRecordId }: { brewRecordId: number }) {
         )}
       </div>
 
-      {error ? <p className="mt-3 text-sm text-red-600">{error}</p> : null}
+      {error ? <p className="mt-4 text-sm text-rose-500">{error}</p> : null}
 
       <form
         onSubmit={onSubmit}
-        className="mt-4 flex items-end gap-3 rounded-[28px] border border-zinc-200 bg-white p-2 shadow-sm"
+        className="mt-6 flex items-end gap-3 rounded-[28px] border border-white/80 bg-white/70 p-3 shadow-[0_8px_24px_rgb(51,68,85,0.05)] backdrop-blur-xl"
       >
         <input
           value={input}
           onChange={(event) => setInput(event.target.value)}
           placeholder="輸入你想問 AI 教練的問題..."
-          className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm outline-none placeholder:text-zinc-400"
+          className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-slate-700 outline-none placeholder:text-slate-400"
         />
         <button
           type="submit"
           disabled={!canSubmit}
-          className="inline-flex h-11 items-center justify-center rounded-full bg-blue-500 px-5 text-sm font-medium text-white transition hover:bg-blue-600 active:scale-95 disabled:cursor-not-allowed disabled:bg-zinc-300"
+          className="inline-flex h-11 items-center justify-center rounded-full bg-gradient-to-r from-violet-500 to-cyan-500 px-5 text-sm font-semibold text-white shadow-[0_12px_24px_rgb(99,102,241,0.2)] transition-all duration-300 hover:-translate-y-0.5 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoading ? "回應中" : "送出"}
         </button>

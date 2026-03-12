@@ -35,8 +35,8 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-zinc-200 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex max-w-5xl items-stretch justify-around px-2 py-2">
+    <nav className="fixed bottom-6 left-1/2 z-50 w-[90%] max-w-md -translate-x-1/2 rounded-full border border-white/80 bg-white/70 px-6 py-4 shadow-[0_20px_40px_rgb(51,68,85,0.1)] backdrop-blur-2xl">
+      <div className="flex items-center justify-around gap-2">
         {items.map((item) => {
           const active = isActive(pathname, item.href);
           const Icon = item.icon as LucideIcon;
@@ -45,18 +45,18 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-xs font-medium transition active:scale-95 ${
+              className={`flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-xs font-medium transition-all duration-300 active:scale-95 ${
                 active
-                  ? "text-amber-600"
-                  : "text-zinc-500 hover:text-zinc-800"
+                  ? "bg-white/70 text-slate-700 shadow-[0_8px_30px_rgb(51,68,85,0.08)]"
+                  : "text-slate-500 hover:-translate-y-0.5 hover:text-slate-700"
               }`}
             >
               <Icon
                 className={`h-5 w-5 ${
-                  active ? "scale-110 stroke-[2.4]" : "stroke-2"
+                  active ? "scale-110 stroke-[2.4] text-violet-500" : "stroke-2"
                 }`}
               />
-              <span>{item.label}</span>
+              <span className={active ? "font-semibold" : ""}>{item.label}</span>
             </Link>
           );
         })}
